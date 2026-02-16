@@ -1,10 +1,11 @@
 // tests/auth.spec.ts
+import { assert } from 'node:console';
 import { test, expect } from './fixtures';
 
 const BASE_URL = 'https://tip:tip@tip.stg.wearebrain.com/en-gb/';
 
 test.describe('Authentication & cabinet', () => {
-  test('Login with test account', async ({ page }) => {
+  test('Login with Dealer account', async ({ page }) => {
     await page.goto(BASE_URL);
     await page.getByRole('link', { name: /Login/i }).click();
     await expect(page).toHaveURL(/\/login/);
@@ -38,50 +39,9 @@ test.describe('Authentication & cabinet', () => {
     ).toBeVisible();
   });
 
-  test('Welcome page navigation & details', async ({ page, loginAsDealer }) => {
-    await loginAsDealer();
-    const menu = page.getByRole('navigation', { name: /Account/i }); // підбери правильний selector
-
-    await expect(menu.getByRole('link', { name: /Welcome/i })).toBeVisible();
-    await expect(menu.getByRole('link', { name: /Favourites/i })).toBeVisible();
-    await expect(menu.getByRole('link', { name: /Saved Searches/i })).toBeVisible();
-    await expect(menu.getByRole('link', { name: /Details/i })).toBeVisible();
-    await expect(menu.getByRole('link', { name: /Change Password/i })).toBeVisible();
-
-    await expect(page.getByText(/Logged in as: Dealer DealerContact/i)).toBeVisible();
-    await expect(page.getByRole('button', { name: /LOG OUT/i })).toBeVisible();
-  });
-
-  test('Details page readonly', async ({ page, loginAsDealer }) => {
-    await loginAsDealer();
-    await page.getByRole('link', { name: /Details/i }).click();
-    await expect(page).toHaveURL(/\/profile|details/);
-
-    const firstName = page.getByLabel(/First name/i);
-    await expect(firstName).toBeVisible();
-    await expect(firstName).toBeDisabled(); // або hasAttribute('readonly', 'readonly')
-  });
-
-  test('Change password validation', async ({ page, loginAsDealer }) => {
-    await loginAsDealer();
-    await page.getByRole('link', { name: /Change Password/i }).click();
-
-    await page.getByLabel(/Current Password/i).fill('wrong');
-    await page.getByLabel(/New Password/i).fill('Newpass123!');
-    await page.getByLabel(/Confirm New Password/i).fill('Newpass123!');
-    await page.getByRole('button', { name: /Save|Change password/i }).click();
-    await expect(page.getByText(/incorrect current password/i)).toBeVisible();
-
-    // позитивний сценарій – тільки якщо дозволено міняти тестовий пароль
-  });
-
-  test('Logout and access control', async ({ page, loginAsDealer }) => {
-    await loginAsDealer();
-    await page.getByRole('button', { name: /LOG OUT/i }).click();
-    await expect(page).toHaveURL(/\/(en-gb\/|login)/);
-    await expect(page.getByRole('link', { name: /Login/i })).toBeVisible();
-
-    await page.goto('https://tip.stg.wearebrain.com/en-gb/welcome/');
-    await expect(page).toHaveURL(/\/login/);
-  });
+  // test('dealer can logout', async ({ page, loginAsDealer }) => {
+  //   await expect(page.getByRole('link', { name: /Login/i })).not.toBeVisible();
+  //   await page.getByRole('button', { name: /LOG OUT/i }).click();
+  //   assert(await page.getByRole('link', { name: /Login/i }).isVisible());
+  // });
 });

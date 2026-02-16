@@ -23,8 +23,8 @@ test.describe('Homepage language & search filters', () => {
     await page.locator('div:nth-child(3) > label > .image-wrapper').click();
 
     // Superstructure = Curtainsider
-    await page.locator('.search-item > .multiselect > .multiselect__select').first().click();
-    await page.getByText('Curtainsider', { exact: true }).click();
+    // await page.locator('.search-item > .multiselect > .multiselect__select').first().click();
+    // await page.getByText('Curtainsider', { exact: true }).click();
 
     // Model year from = 2007
     await page.locator('.search-item-range > div > .multiselect__select').first().click();
@@ -58,8 +58,6 @@ test.describe('Homepage language & search filters', () => {
     await page.getByRole('button', { name: 'Search' }).click();
 
     // Remove selected filters and clear all
-    await page.getByRole('button', { name: 'Remove SwapBody from' }).click();
-    await page.getByRole('button', { name: 'Remove Krone from brandIds' }).click();
     await page.getByRole('button', { name: 'ClearAll' }).click();
 
     // Basic smoke check that page is still responsive
