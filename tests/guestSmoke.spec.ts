@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Homepage language & search filters', () => {
-  test('switch language and apply Curtainsider search', async ({ page }) => {
+test.describe('Homepage & search filters', () => {
+  test('open hoepage and apply search', async ({ page }) => {
     // Open EN site with basic auth
     await page.goto('https://tip:tip@tip.stg.wearebrain.com/en-gb/');
 
@@ -22,14 +22,10 @@ test.describe('Homepage language & search filters', () => {
     await page.locator('div:nth-child(2) > label > .image-wrapper').click();
     await page.locator('div:nth-child(3) > label > .image-wrapper').click();
 
-    // Superstructure = Curtainsider
-    // await page.locator('.search-item > .multiselect > .multiselect__select').first().click();
-    // await page.getByText('Curtainsider', { exact: true }).click();
-
     // Model year from = 2007
     await page.locator('.search-item-range > div > .multiselect__select').first().click();
-    await page.getByText('2007', { exact: true }).click();
-
+    await page.locator('span', { hasText: '2007' }).first().click();
+    
     // Model year to = 2022
     await page.locator('div:nth-child(3) > .multiselect__select').first().click();
     await page.locator('span', { hasText: '2022' }).first().click();
