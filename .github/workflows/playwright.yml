@@ -34,7 +34,7 @@ jobs:
 
       - name: Install Playwright Browsers (Chromium shell only)
         run: npx playwright install --with-deps --only-shell chromium
-      
+
       - name: Health check
         run: npx playwright test tests/health.spec.ts
 
@@ -42,8 +42,8 @@ jobs:
         if: success() # запускати тільки якщо health пройшов
         run: npx playwright test tests/smoke
 
-      # один запуск тестів, одразу з html + line
-      - name: Run Playwright tests
+      # один запуск тестів для HTML‑репорту
+      - name: Run Playwright tests (HTML + line)
         run: npx playwright test --reporter=html,line
         env:
           CI: true
@@ -76,23 +76,4 @@ jobs:
           echo "### What was tested" >> $GITHUB_STEP_SUMMARY
           echo "- Smoke suite: dealer & guest flows (auth, search, details)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "> Full HTML report is attached as artifact \`playwright-report\`." >> $GITHUB_STEP_SUMMARY
-
-      # ⬇️ перезаписуємо згенерований index.html своїм з кнопкою
-      # index.trigger.html має лежати в корені репозиторію
-      - name: Inject trigger button into report
-        if: always()
-        run: |
-          cp index.trigger.html playwright-report/index.html
-
-      # деплой саме цієї папки на GitHub Pages
-      - name: Upload artifact for GitHub Pages
-        if: always()
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: playwright-report
-
-      - name: Deploy to GitHub Pages
-        if: always()
-        id: deployment
-        uses: actions/deploy-pages@v4
+          echo "> Full HTML report is attached as arti
