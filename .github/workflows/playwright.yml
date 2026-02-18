@@ -27,7 +27,7 @@ jobs:
         run: npx playwright install --with-deps
 
       # один запуск тестів, одразу з html + line
-      - name: Run Playwright tests
+      - name: Run tests
         run: npx playwright test --reporter=html,line
         env:
           CI: true
@@ -51,7 +51,7 @@ jobs:
       - name: Add summary for managers
         if: always()
         run: |
-          echo "## TIP-used Playwright E2E" >> $GITHUB_STEP_SUMMARY
+          echo "## TIP-used Tests" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- Branch: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- Run: [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
