@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 
+
 test.describe('Our stock tiles apply correct filters', () => {
   const base = 'https://tip:tip@tip.stg.wearebrain.com';
 

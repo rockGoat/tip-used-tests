@@ -1,6 +1,7 @@
 // tests/guest/guestSmoke.spec.ts
 import { test, expect } from '@playwright/test';
 
+
 const BASE_URL = 'https://tip:tip@tip.stg.wearebrain.com/en-gb/';
 
 test.describe('Guest user smoke tests', () => {

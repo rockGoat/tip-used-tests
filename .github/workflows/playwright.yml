@@ -41,7 +41,7 @@ jobs:
         env:
           CI: true
 
-      - name: Upload Playwright HTML report
+      - name: Upload Playwright HTML report (artifact)
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -71,30 +71,21 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "> Full HTML report is attached as artifact \`playwright-report\`." >> $GITHUB_STEP_SUMMARY
 
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    if: always()
+      # ⬇️ перезаписуємо згенерований index.html своїм з кнопкою
+      # index.trigger.html має лежати в корені репозиторію
+      - name: Inject trigger button into report
+        if: always()
+        run: |
+          cp index.trigger.html playwright-report/index.html
 
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Download Playwright report artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: playwright-report
-          path: ./playwright-report
-
-      - name: Upload report to GitHub Pages
+      # деплой саме цієї папки на GitHub Pages
+      - name: Upload artifact for GitHub Pages
+        if: always()
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./playwright-report
+          path: playwright-report
 
       - name: Deploy to GitHub Pages
+        if: always()
         id: deployment
         uses: actions/deploy-pages@v4
