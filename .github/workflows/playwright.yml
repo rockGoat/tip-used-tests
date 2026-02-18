@@ -76,4 +76,40 @@ jobs:
           echo "### What was tested" >> $GITHUB_STEP_SUMMARY
           echo "- Smoke suite: dealer & guest flows (auth, search, details)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "> Full HTML report is attached as arti
+          echo "> Full HTML report is attached as artifact \`playwright-report\`." >> $GITHUB_STEP_SUMMARY
+
+      # ⬆️ на цьому етапі в нас є artifact 'playwright-report'
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Download Playwright report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report
+          path: ./playwright-report
+
+      # перезаписуємо згенерований index.html своїм з кнопкою
+      # index.trigger.html має лежати в корені репозиторію
+      - name: Inject trigger button into report
+        run: |
+          cp index.trigger.html playwright-report/index.html
+
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: playwright-report
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
