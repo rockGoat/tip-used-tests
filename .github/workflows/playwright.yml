@@ -34,6 +34,13 @@ jobs:
 
       - name: Install Playwright Browsers (Chromium shell only)
         run: npx playwright install --with-deps --only-shell chromium
+      
+      - name: Health check
+        run: npx playwright test tests/health.spec.ts
+
+      - name: Run Smoke Tests
+        if: success() # запускати тільки якщо health пройшов
+        run: npx playwright test tests/smoke
 
       # один запуск тестів, одразу з html + line
       - name: Run Playwright tests
