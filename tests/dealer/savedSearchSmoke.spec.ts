@@ -11,7 +11,7 @@ test.describe('Dealer Saved Search smoke', () => {
     await page.waitForLoadState('networkidle');
 
     // 3. Просто screenshot для візуальної перевірки
-    await page.screenshot({ path: 'test-results/saved-searches-smoke.png', fullPage: true });
+    // await page.screenshot({ path: 'test-results/saved-searches-smoke.png', fullPage: true });
 
     console.log('✓ Saved searches page smoke test passed');
   });

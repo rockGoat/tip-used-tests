@@ -51,7 +51,11 @@ jobs:
       - name: Add summary for managers
         if: always()
         run: |
+<<<<<<< HEAD
           echo "## TIP-used Tests" >> $GITHUB_STEP_SUMMARY
+=======
+          echo "## TIP-used Tests Summary" >> $GITHUB_STEP_SUMMARY
+>>>>>>> 54ce9d9 (feat: Update yml file)
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- Branch: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- Run: [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
