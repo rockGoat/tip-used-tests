@@ -1,5 +1,5 @@
 // tests/auth.spec.ts
-import { test, expect } from '../fixtures/fixtures';
+import { test, expect } from './fixtures/fixtures';
 
 test.describe('Authentication & cabinet', () => {
   test('dealer can navigate cabinet pages', async ({ page, dealerLoggedIn }) => {

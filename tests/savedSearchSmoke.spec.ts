@@ -1,5 +1,5 @@
 // tests/dealer/savedSearchSmoke.spec.ts
-import { test, expect } from '../fixtures/dealerFixtures';
+import { test, expect } from './fixtures/dealerFixtures';
 
 test.describe('Dealer Saved Search smoke', () => {
   test('saved searches functionality', async ({ dealerLoggedIn: page }) => {
