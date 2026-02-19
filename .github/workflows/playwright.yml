@@ -97,10 +97,11 @@ jobs:
 
       # перейменовуємо свіжий index.html → report.html
       # і кладемо свій index.trigger.html як index.html
-      - name: Wrap report with trigger page
-        run: |
-          mv playwright-report/index.html playwright-report/report.html
-          cp index.trigger.html playwright-report/index.html
+      # - name: Wrap report with trigger page
+      #   run: |
+      #     mv playwright-report/index.html playwright-report/report.html
+      #     cp index.trigger.html playwright-report/index.html
+
 
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v3
