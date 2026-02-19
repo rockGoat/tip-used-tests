@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -56,7 +56,7 @@
     <button id="run-smoke">Run smoke tests</button>
     <div id="run-status"></div>
 
-    <!-- Тут показуємо СВІЖИЙ репорт з цього ж Pages артефакта -->
+    <!-- Тут завжди показуємо СВІЖИЙ репорт з цього ж Pages артефакта -->
     <iframe id="report-frame" src="report.html"></iframe>
 
     <script>
@@ -74,7 +74,8 @@
             statusEl.textContent = "Failed to start tests: " + text;
             return;
           }
-          statusEl.textContent = "Smoke tests started. Check Actions in a minute.";
+          statusEl.textContent =
+            "Smoke tests started. Check Actions in a minute.";
         } catch (e) {
           statusEl.textContent =
             "Network error while starting tests.";
@@ -82,4 +83,4 @@
       });
     </script>
   </body>
-</html> -->
+</html>
