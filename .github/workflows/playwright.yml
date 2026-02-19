@@ -13,8 +13,8 @@ permissions:
   id-token: write   # потрібно для деплою GitHub Pages
 
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: pages-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
@@ -37,7 +37,7 @@ jobs:
 
       # - name: Health check (skipped for now)
       #   run: echo "Health check is not implemented yet"
-        # run: npx playwright test tests/health.spec.ts
+      #   run: npx playwright test tests/health.spec.ts
 
       - name: Run Smoke + E2E Tests with HTML report
         run: npx playwright test --reporter=html,line
@@ -74,12 +74,10 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "> Full HTML report is attached as artifact \`playwright-report\`." >> $GITHUB_STEP_SUMMARY
 
-      # ⬆️ на цьому етапі в нас є artifact 'playwright-report'
-
   deploy:
     needs: test
     runs-on: ubuntu-latest
-    if: always()
+    if: needs.test.result == 'success'
 
     environment:
       name: github-pages
@@ -97,10 +95,11 @@ jobs:
           name: playwright-report
           path: ./playwright-report
 
-      # перезаписуємо згенерований index.html своїм з кнопкою
-      # index.trigger.html має лежати в корені репозиторію
-      - name: Inject trigger button into report
+      # перейменовуємо свіжий index.html → report.html
+      # і кладемо свій index.trigger.html як index.html
+      - name: Wrap report with trigger page
         run: |
+          mv playwright-report/index.html playwright-report/report.html
           cp index.trigger.html playwright-report/index.html
 
       - name: Upload artifact for GitHub Pages
